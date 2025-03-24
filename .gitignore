@@ -1,0 +1,38 @@
+/app/be/var/**/*
+/var/**/*
+!/var/.gitkeep
+.env
+.idea
+
+###> be ###
+/app/be/.env.local
+/app/be/.env.dev
+/app/be/.env.local.php
+/app/be/.env.*.local
+/app/be/config/secrets/prod/prod.decrypt.private.php
+/app/be/public/bundles/
+/app/be/var/
+!/app/be/var/.gitkeep
+/app/be/vendor/
+/app/be/phpunit.xml
+/app/be/.phpunit.cache/
+###< be ###
+
+###> fe ###
+/app/fe/test-results/
+/app/fe/playwright-report/
+/app/fe/*.tsbuildinfo
+/app/fe/logs
+/app/fe/*.log
+/app/fe/npm-debug.log*
+/app/fe/yarn-debug.log*
+/app/fe/yarn-error.log*
+/app/fe/pnpm-debug.log*
+/app/fe/lerna-debug.log*
+/app/fe/node_modules
+/app/fe/dist
+/app/fe/dist-ssr
+/app/fe/coverage
+/app/fe/*.local
+###< fe ###
+

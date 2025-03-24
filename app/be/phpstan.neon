@@ -1,0 +1,18 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+    level: max
+    tmpDir: var/cache/phpstan
+    parallel:
+        maximumNumberOfProcesses: 8
+    paths:
+        - src
+    bootstrapFiles:
+        - vendor/autoload.php
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkImplicitMixed: true
+    checkBenevolentUnionTypes: true
+    checkMissingOverrideMethodAttribute: true
+    reportAnyTypeWideningInVarTag: true
+    treatPhpDocTypesAsCertain: false
