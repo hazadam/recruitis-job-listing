@@ -10,3 +10,17 @@ services:
             - '../src/Kernel.php'
             - '../src/functions.php'
             - '../src/otel.php'
+
+    App\RecruitisApi\RecruitisApiClient:
+        arguments:
+            $recruitisHttpClient: '@recruitis.http_client'
+
+    App\RecruitisApi\CachingRecruitisApiClient:
+        decorates: App\RecruitisApi\RecruitisApiClient
+        arguments:
+            $cache: '@cache.app'
+            $liveClient: '@App\RecruitisApi\CachingRecruitisApiClient.inner'
+            $cacheLifetimeInSeconds: '%env(RECRUITIS_CACHE_LIFETIME)%'
+
+    App\RecruitisApi\RecruitisApiClientInterface:
+        alias: App\RecruitisApi\RecruitisApiClient

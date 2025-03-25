@@ -1,0 +1,7 @@
+framework:
+  http_client:
+    scoped_clients:
+      recruitis.http_client:
+        base_uri: '%env(RECRUITIS_BASE_URI)%'
+        headers:
+          Authorization: 'Bearer %env(RECRUITIS_AUTH_TOKEN)%'

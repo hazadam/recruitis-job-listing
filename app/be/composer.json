@@ -1,4 +1,6 @@
 {
+    "name": "hazadam/job-listing",
+    "description": "Job Listing",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
@@ -66,7 +68,8 @@
         "ecs": "vendor/bin/ecs check src tests -c ecs.php",
         "ecs-fix": "vendor/bin/ecs check --fix src tests -c ecs.php",
         "phpstan": "vendor/bin/phpstan analyze -c phpstan.neon",
-        "dev": "php -S 0.0.0.0:8080 -t public"
+        "dev": "php -S 0.0.0.0:8080 -t public",
+        "test": "vendor/bin/phpunit -c phpunit.xml"
     },
     "conflict": {
         "symfony/symfony": "*"
