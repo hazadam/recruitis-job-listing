@@ -1,0 +1,23 @@
+security:
+    providers:
+        users_in_memory: { memory: null }
+    firewalls:
+        dev:
+            pattern:
+                - ^/(_(profiler|wdt))/
+                - ^/_health$
+            security: false
+        proxy:
+            lazy: true
+            stateless: true
+            pattern: ^/api
+            provider: users_in_memory
+        other:
+            lazy: true
+            stateless: true
+            pattern: ^/
+            provider: users_in_memory
+    access_control:
+        - { path: ^/api, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+

@@ -7,7 +7,9 @@ RUN apt-get update \
         net-tools \
         git \
         zip \
+    && pecl install opentelemetry && docker-php-ext-enable opentelemetry \
     && pecl install xdebug && docker-php-ext-enable xdebug \
+    && pecl install redis && docker-php-ext-enable redis \
     && mkdir -p /home/application/bin \
     && chown -R application /home/application \
     && echo 'xdebug.mode=debug' >>/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \

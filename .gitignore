@@ -6,7 +6,7 @@
 
 ###> be ###
 /app/be/.env.local
-/app/be/.env.dev
+/app/be/.env.local
 /app/be/.env.local.php
 /app/be/.env.*.local
 /app/be/config/secrets/prod/prod.decrypt.private.php

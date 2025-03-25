@@ -12,7 +12,6 @@ x-services:
     working_dir: /app
     user: application
     environment:
-      APP_ENV: dev
       PHP_IDE_CONFIG: "serverName=_"
     env_file:
       - .env
@@ -49,6 +48,18 @@ services:
       POSTGRES_DB: $POSTGRES_DB
   redis:
     image: redis:7-alpine
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: [ "--config=/etc/otelcol-contrib/config.yaml" ]
+    volumes:
+      - ./.docker/otel/collector.yaml:/etc/otelcol-contrib/config.yaml
+  prometheus:
+    image: prom/prometheus:latest
+    command: [ "--config.file=/etc/prometheus/prometheus.yml" ]
+    volumes:
+      - ./.docker/otel/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
   app-fe:
     image: node:22-bookworm
     volumes:

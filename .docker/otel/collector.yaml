@@ -1,0 +1,29 @@
+receivers:
+  otlp/MetricsExporter:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4317 # CWE-1327: Binding to an Unrestricted IP Address (0.0.0.0 is unrestricted)
+
+processors:
+    batch:
+      send_batch_size: 1000 # default = 8192
+      timeout: 30s
+    memory_limiter:
+      check_interval: 1s
+      limit_percentage: 75
+      spike_limit_percentage: 30
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    send_timestamps: true
+    metric_expiration: 180m
+    resource_to_telemetry_conversion: # it means that the resource information (like service name, host name, etc.) associated with the telemetry data (metrics, traces, etc.) is converted into metric labels.
+      enabled: true
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp/MetricsExporter]
+      processors: [memory_limiter]
+      exporters: [prometheus]
