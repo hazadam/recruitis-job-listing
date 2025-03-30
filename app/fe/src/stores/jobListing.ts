@@ -51,6 +51,8 @@ export const useJobListingStore = defineStore('jobListing', () => {
         loading.value = false
         aborts.delete(abort)
       } catch (e) {
+        loading.value = false
+        changePage(0)
         if (e instanceof DOMException && e.name === 'AbortError') {
           return
         }
