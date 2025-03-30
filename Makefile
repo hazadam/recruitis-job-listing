@@ -17,3 +17,9 @@ fe:
 
 fer:
 	@docker compose exec --user=root app-fe bash
+
+dev-be: up
+	@docker compose exec --user=root app-be bash -c "composer dev"
+
+dev-fe: up
+	@docker compose exec --user=root app-fe bash -c "npm run dev"
