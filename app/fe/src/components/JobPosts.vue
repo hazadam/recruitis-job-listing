@@ -31,8 +31,8 @@ watch(
   () => {
     // vue router cache would display the same content even when moving back/forth in history
     // regardless of what "page" is in the URL
-    if (typeof route.params.page === 'string') {
-      const pageInRoute = parseInt(route.params.page)
+    if (typeof route.params.page === 'string' || undefined === route.params.page) {
+      const pageInRoute = parseInt(route.params.page || '1')
       if (pageInRoute !== pagination.page) {
         changePage(pageInRoute)
       }
