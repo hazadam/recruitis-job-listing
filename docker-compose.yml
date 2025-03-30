@@ -16,6 +16,14 @@ x-services:
     env_file:
       - .env
 
+  shared-app-fe: &shared-app-fe
+    image: node:22-bookworm
+    volumes:
+      - ./app/fe:/app
+    user: node
+    working_dir: /app
+    command: [ "tail", "-f", "/dev/null" ]
+
 services:
   app-be:
     <<: *shared-app-be
@@ -61,11 +69,9 @@ services:
     ports:
       - "9090:9090"
   app-fe:
-    image: node:22-bookworm
-    volumes:
-      - ./app/fe:/app
-    user: node
+    <<: *shared-app-fe
     ports:
       - '5173:5173'
-    working_dir: /app
-    command: ["tail", "-f", "/dev/null"]
+  node_phpstorm:
+    <<: *shared-app-fe
+

@@ -33,12 +33,15 @@ final class RecruitisApiProxyController extends AbstractController
     #[Route(
         path: self::PROXY_API_PREFIX . '/{slug}',
         name: 'forward_api_call',
+        requirements: [
+            'slug' => '.*',
+        ],
         methods: [
             Request::METHOD_GET,
             Request::METHOD_POST,
             Request::METHOD_PUT,
             Request::METHOD_OPTIONS,
-        ],
+        ]
     )]
     public function forwardAction(Request $request): Response
     {
