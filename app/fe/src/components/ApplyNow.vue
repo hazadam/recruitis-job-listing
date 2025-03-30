@@ -66,7 +66,7 @@ const close = () => {
       <div v-if="error !== ''" class="mb-10">
         <ErrorAlert title="Error!" :message="error" />
       </div>
-      <form v-if="application.submitted === false" name="application" @submit.prevent>
+      <form v-if="application.submitted === false" name="application" @submit.prevent novalidate>
         <h2 class="text-xl font-bold mb-4">Get yourself a job</h2>
         <div class="mb-4 mt-10">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
