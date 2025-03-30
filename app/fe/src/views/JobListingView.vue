@@ -5,7 +5,7 @@ import JobPosts from '@/components/JobPosts.vue'
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
-const props = defineProps(['page'])
+const props = defineProps<{ page: string }>()
 const page = ref(parseInt(props.page) || 0)
 const jobListingStore = useJobListingStore()
 const changePage = jobListingStore.changePage
@@ -16,8 +16,8 @@ const initialLoad = () => {
   page.value = 1
 }
 
-if (props.page > 0 && pagination.value.page !== props.page) {
-  changePage(parseInt(props.page))
+if (page.value > 0 && pagination.value.page !== page.value) {
+  changePage(page.value)
 }
 </script>
 

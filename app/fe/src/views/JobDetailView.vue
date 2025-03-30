@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import JobPostDetail from '@/components/JobPostDetail.vue'
 import SpinnerLoader from '@/components/SpinnerLoader.vue'
-const { id, job } = defineProps({
-  id: String,
-  job: Object,
-})
+import type { Job } from '@/lib/apiTypes.ts'
+
+const { id, job } = defineProps<{ id: string; job?: Job }>()
 </script>
 
 <template>

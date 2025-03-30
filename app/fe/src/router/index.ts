@@ -11,7 +11,7 @@ const router = createRouter({
       path: '/',
       name: 'homepage',
       component: JobListingView,
-      props: { page: 0 },
+      props: { page: '0' },
     },
     {
       path: '/list/:page?',

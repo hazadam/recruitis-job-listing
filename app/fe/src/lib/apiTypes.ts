@@ -1,9 +1,11 @@
+// nullable fields on purpose so that we can catch validation errors from API
+// instead of mimicking the same kind of validation here
 export type Answer = {
   job_id: number
-  email: string
-  name: string
-  phone: string
-  cover_letter: string
+  email?: string
+  name?: string
+  phone?: string
+  cover_letter?: string
 }
 
 export type Pagination = {

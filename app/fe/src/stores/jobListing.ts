@@ -9,7 +9,7 @@ export type Pagination = {
   pages: number[]
 }
 
-const defaultPagination = { limit: 12, page: 0 }
+const defaultPagination = { limit: 12, page: 0, pages: [] }
 
 export const useJobListingStore = defineStore('jobListing', () => {
   const aborts = new Set<() => void>()
@@ -37,12 +37,15 @@ export const useJobListingStore = defineStore('jobListing', () => {
     async (): Promise<void> => {
       try {
         // not using Suspense just to demonstrate different approach
-        aborts.entries().forEach(([cb]) => cb())
+        for (const abortCallback of aborts.values()) {
+          abortCallback()
+        }
+
         const [abort, response] = fetchJobsFromApi(pagination.limit, pagination.page)
         aborts.add(abort)
         const result = await response()
         pagination.pages = [
-          ...Array(parseInt(Math.ceil(result.meta.entries_total / pagination.limit))).keys(),
+          ...Array(Math.ceil(result.meta.entries_total / pagination.limit)).keys(),
         ].map((p) => p + 1)
         jobs.value = result.payload
         loading.value = false
@@ -51,9 +54,9 @@ export const useJobListingStore = defineStore('jobListing', () => {
         if (e instanceof DOMException && e.name === 'AbortError') {
           return
         }
-        throw new Error('Could not fetch job postings from API. Please try again later.', {
-          cause: e,
-        })
+        const error = Error('Could not fetch job postings from API. Please try again later.')
+        error.cause = e
+        throw error
       }
     },
   )

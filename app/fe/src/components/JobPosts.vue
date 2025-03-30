@@ -13,11 +13,7 @@ type Props = {
 
 const router = useRouter()
 const route = useRoute()
-const props: Props = defineProps({
-  jobs: Array,
-  pagination: Object,
-  changePage: Function,
-})
+const props = defineProps<Props>()
 const { jobs, pagination, changePage } = props
 const next = () => {
   const nextPage = pagination.page + 1
@@ -35,8 +31,11 @@ watch(
   () => {
     // vue router cache would display the same content even when moving back/forth in history
     // regardless of what "page" is in the URL
-    if (route.params.page !== pagination.page) {
-      changePage(parseInt(route.params.page))
+    if (typeof route.params.page === 'string') {
+      const pageInRoute = parseInt(route.params.page)
+      if (pageInRoute !== pagination.page) {
+        changePage(pageInRoute)
+      }
     }
   },
 )

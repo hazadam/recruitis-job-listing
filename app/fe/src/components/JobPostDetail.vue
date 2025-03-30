@@ -2,11 +2,14 @@
 import { fetchJob } from '@/lib/apiClient.ts'
 import ApplyNow from '@/components/ApplyNow.vue'
 import { ref } from 'vue'
+import type { Job } from '@/lib/apiTypes.ts'
 
-const props = defineProps({
-  job: Object,
-  id: String,
-})
+type Props = {
+  job?: Job // was thinking of caching locally somewhere since I'm fetching the payload for list purposes anyway
+  id: string
+}
+
+const props = defineProps<Props>()
 const job = props.job || (await fetchJob(props.id)).payload
 const applyNow = ref(false)
 </script>
@@ -19,7 +22,7 @@ const applyNow = ref(false)
       <h3 class="text-lg font-semibold">Salary</h3>
       <p v-if="job.salary?.visible ?? false" class="text-gray-700">
         <span v-if="job.salary.is_range">{{ job.salary.min }} - {{ job.salary.max }}</span>
-        <span v-else>{{ job.salary.amount }}</span>
+        <span v-else>{{ job.salary.max || job.salary.min }}</span>
         {{ job.salary.currency }} / {{ job.salary.unit }}
       </p>
       <span v-else>N/A</span>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { w, h } = defineProps(['w', 'h'])
+const { w, h } = defineProps<{ w?: number; h?: number }>()
 </script>
 <template>
   <div class="flex items-center justify-center">

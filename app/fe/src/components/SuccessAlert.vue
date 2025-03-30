@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { title, message } = defineProps(['title', 'message'])
+const { title, message } = defineProps<{ title: string; message: string }>()
 const emit = defineEmits<{
   (e: 'close'): void
 }>()

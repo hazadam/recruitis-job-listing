@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Job } from '@/lib/apiTypes.ts'
-const props: { job: Job } = defineProps(['job'])
-const { job } = props
+
+const { job } = defineProps<{ job: Job }>()
 const description =
   job.description.length > 256 ? job.description.slice(0, 256) + '...' : job.description // browsers will close open tags inside trimmed html on their own 🤞
 </script>
@@ -15,7 +15,7 @@ const description =
         <h3 class="text-lg font-semibold">Salary</h3>
         <p v-if="job.salary?.visible ?? false" class="text-gray-700">
           <span v-if="job.salary.is_range">{{ job.salary.min }} - {{ job.salary.max }}</span>
-          <span v-else>{{ job.salary.amount }}</span>
+          <span v-else>{{ job.salary.max || job.salary.min }}</span>
           {{ job.salary.currency }} / {{ job.salary.unit }}
         </p>
         <span v-else>N/A</span>

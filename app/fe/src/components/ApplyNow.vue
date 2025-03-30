@@ -5,28 +5,30 @@ import { ref } from 'vue'
 import { createAnswer } from '@/lib/apiClient.ts'
 import SuccessAlert from '@/components/SuccessAlert.vue'
 import ErrorAlert from '@/components/ErrorAlert.vue'
+import { useApplicationsStore } from '@/stores/applications.ts'
 
 type Props = {
   show: boolean
   jobId: number
 }
 
-const { show, jobId }: Props = defineProps({
-  show: Boolean,
-  jobId: Number,
-})
+const { show, jobId }: Props = defineProps<Props>()
+
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const { editApplication } = window._appStores.applications
-const { applications } = storeToRefs(window._appStores.applications)
+const applicationsStore = useApplicationsStore()
+const { editApplication } = applicationsStore
+const { applications } = storeToRefs(applicationsStore)
 const application =
-  applications[jobId] ??
+  applications.value[jobId] ??
   editApplication(jobId, {
+    name: '',
     email: '',
     message: '',
     phone: '',
+    submitted: false,
   })
 const error = ref('')
 const loading = ref(false)
@@ -35,11 +37,12 @@ const apply = async () => {
   error.value = ''
   const { statusCode, response } = await createAnswer({
     job_id: jobId,
-    name: application.value.name,
-    cover_letter: application.value.message,
-    phone: application.value.phone,
+    name: application.name === '' ? undefined : application.name,
+    email: application.email === '' ? undefined : application.email,
+    cover_letter: application.message === '' ? undefined : application.message,
+    phone: application.phone === '' ? undefined : application.phone,
   })
-  application.value.submitted = statusCode === 201
+  application.submitted = statusCode === 201
   if (statusCode !== 201) {
     error.value = (await response()).meta?.message || 'Unknown error'
   }
@@ -58,7 +61,7 @@ const close = () => {
       class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full transform transition-transform duration-300 ease-in-out scale-100"
     >
       <div v-if="loading" class="mb-5">
-        <SpinnerLoader w="8" h="8" />
+        <SpinnerLoader :w="8" :h="8" />
       </div>
       <div v-if="error !== ''" class="mb-10">
         <ErrorAlert title="Error!" :message="error" />
@@ -86,6 +89,17 @@ const close = () => {
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="phone"
             type="text"
+            placeholder=""
+          />
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="email"> Email </label>
+          <input
+            :disabled="loading"
+            v-model="application.email"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="email"
+            type="email"
             placeholder=""
           />
         </div>

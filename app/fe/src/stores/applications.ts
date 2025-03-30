@@ -1,28 +1,26 @@
 import { defineStore } from 'pinia'
-import { type Ref, ref } from 'vue'
+import { ref } from 'vue'
 
 export const useApplicationsStore = defineStore('applications', () => {
   type Application = {
     message: string
+    name: string
     email: string
     phone: string
     submitted: boolean
   }
-  const applications = ref<{ [key: number]: Ref<Application> }>({})
-  const editApplication = (jobId: number, application: Application): Ref<Application> => {
-    if (undefined === applications[jobId]) {
-      applications[jobId] = ref<Application>({
-        message: '',
-        email: '',
-        phone: '',
-        submitted: false,
-      })
+  const applications = ref<{ [key: number]: Application }>({})
+  const editApplication = (jobId: number, application: Application): Application => {
+    if (undefined === applications.value[jobId]) {
+      applications.value[jobId] = application
     }
-    applications[jobId].value.email = application.email
-    applications[jobId].value.message = application.message
-    applications[jobId].value.phone = application.phone
+    applications.value[jobId].email = application.email
+    applications.value[jobId].name = application.name
+    applications.value[jobId].message = application.message
+    applications.value[jobId].phone = application.phone
+    applications.value[jobId].submitted = application.submitted
 
-    return applications[jobId]
+    return applications.value[jobId]
   }
 
   return { applications, editApplication }
