@@ -3,12 +3,14 @@ import { fetchJob } from '@/lib/apiClient.ts'
 import ApplyNow from '@/components/ApplyNow.vue'
 import { ref } from 'vue'
 import type { Job } from '@/lib/apiTypes.ts'
+import { useRouter } from 'vue-router'
 
 type Props = {
   job?: Job // was thinking of caching locally somewhere since I'm fetching the payload for list purposes anyway
   id: string
 }
 
+const router = useRouter()
 const props = defineProps<Props>()
 const job = props.job || (await fetchJob(props.id)).payload
 const applyNow = ref(false)
@@ -33,7 +35,13 @@ const applyNow = ref(false)
         >{{ job.employment.name }}</span
       >
     </div>
-    <div class="flex center-items justify-end">
+    <div class="mt-5 flex center-items justify-between">
+      <button
+        class="bg-gray-500 text-white py-2 px-5 rounded-lg font-medium transition"
+        @click="router.back()"
+      >
+        Back
+      </button>
       <button
         class="bg-blue-600 text-white py-2 px-5 rounded-lg font-medium hover:bg-blue-700 transition"
         @click="applyNow = true"
